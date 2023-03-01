@@ -2,66 +2,114 @@
 <html lang="en">
 
 <head>
-    <script type = "text/javascript" src="functions.js"></script>
+    <link rel="stylesheet" href="stylesheet.css">
     <meta charset="UTF-8">
     <title>Outlook Signature Tool</title>
 </head>
 
 <body>
-
+<div class="content">
+    <h1>OTTO Signatur erstellen oder aktualisieren</h1>
     <form id="inputfields">
-        <input type="text" name="company" placeholder="Firma" />
-        <input type="text" name="firstname" placeholder="Vorname" />
-        <input type="text" name="surname" placeholder="Nachname" />
-        <input type="text" name="position" placeholder="Position" />
-        <input type="text" name="departmentid" placeholder="Abteilungskürzel" />
-        <input type="text" name="department" placeholder="Abteilung" />
-        <input type="text" name="email" placeholder="Email-Adresse" />
-        <input type="text" name="faxnr" placeholder="Faxnnummer" />
-        <input type="text" name="mobilenr" placeholder="Mobilnummer" />
+        Firma<br>
+        <input type="text" id="company" placeholder="Firma" /><br><br>
+        Vorname<br>
+        <input type="text" id="firstname" placeholder="Vorname" /><br><br>
+        Nachname<br>
+        <input type="text" id="surname" placeholder="Nachname" /><br><br>
+        Position<br>
+        <input type="text" id="position" placeholder="Position" /><br><br>
+        Abteilungskürzel<br>
+        <input type="text" id="departmentid" placeholder="Abteilungskürzel" /><br><br>
+        Abteilung<br>
+        <input type="text" id="department" placeholder="Abteilung" /><br><br>
+        Email-Adresse<br>
+        <input type="text" id="email" placeholder="Email-Adresse" /><br><br>
+        Faxnummer<br>
+        <input type="text" id="faxnr" placeholder="Faxnnummer" /><br><br>
+        Mobilnummer<br>
+        <input type="text" id="mobilenr" placeholder="Mobilnummer" /><br><br>
     </form>
 
-<button onclick="copySignature()">Copy signature to clipboard</button>
-<button onclick="window.location.href = 'help.html';">HELP</button>
+    <button onclick="copySignature()">Copy signature to clipboard</button>
+    <button onclick="window.location.href = 'help.html';">HELP</button>
     <p id="showinputhere"></p>
+</div>
 <script>
 
 window.onload = function () {
-document.getElementById("inputfields").elements["company"].value = localStorage.getItem('company');
-document.getElementById("inputfields").elements["firstname"].value = localStorage.getItem('firstname');
-document.getElementById("inputfields").elements["surname"].value = localStorage.getItem('surname');
-document.getElementById("inputfields").elements["position"].value = localStorage.getItem('position');
-document.getElementById("inputfields").elements["departmentid"].value = localStorage.getItem('departmentid');
-document.getElementById("inputfields").elements["department"].value = localStorage.getItem('department');
-document.getElementById("inputfields").elements["email"].value = localStorage.getItem('email');
-document.getElementById("inputfields").elements["mobilenr"].value = localStorage.getItem('mobilenr');
-document.getElementById("inputfields").elements["faxnr"].value = localStorage.getItem('faxnr');
+let fields = document.getElementById("inputfields");
+for (let i = 0; i< fields.length; i++){
+    fields[i].value = localStorage.getItem(fields[i].id);
+}
 }
 
 function copySignature() {
-    let company = document.getElementById("inputfields").elements["company"].value;
-    localStorage.setItem('company', company);
-    let firstname = document.getElementById("inputfields").elements["firstname"].value;
-    localStorage.setItem('firstname', firstname);
-    let surname = document.getElementById("inputfields").elements["surname"].value;
-    localStorage.setItem('surname', surname);
-    let position = document.getElementById("inputfields").elements["position"].value;
-    localStorage.setItem('position', position);
-    let departmentid = document.getElementById("inputfields").elements["departmentid"].value;
-    localStorage.setItem('departmentid', departmentid);
-    let department = document.getElementById("inputfields").elements["department"].value;
-    localStorage.setItem('department', department);
-    let email = document.getElementById("inputfields").elements["email"].value;
-    localStorage.setItem('email', email);
-    let mobilenr = document.getElementById("inputfields").elements["mobilenr"].value;
-    localStorage.setItem('mobilenr', mobilenr);
-    let faxnr = document.getElementById("inputfields").elements["faxnr"].value;
-    localStorage.setItem('faxnr', faxnr);
-
-let signature = "___________________________________________________________________\n" + firstname + " " + surname + "\n" + company +  " • " + position + " • "  + department + " • " + departmentid + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\nTelefon " + mobilenr + " • Telefax " + faxnr + "\n" + email + "\n___________________________________________________________________\nwww.otto.de\n\nwww.facebook.com/otto\n\nwww.twitter.com/otto_de\n\n___________________________________________________________________\n\n\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\n\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • \n\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\n\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •\n\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\n\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n\n___________________________________________________________________"
-document.getElementById("showinputhere").innerHTML = signature;
+    let fields = document.getElementById("inputfields");
+    for (let i = 0; i< fields.length; i++){
+        localStorage.setItem(fields[i].id, fields[i].value);
+    }
+let signature = "___________________________________________________________________\n" + fields[0].value + " " + fields[1].value + "\n" + fields[2].value +  " • " + fields[3].value + " • "  + fields[4].value + " • " + fields[5].value + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\nTelefon " + fields[6].value + " • Telefax " + fields[7].value + "\n" + fields[8].value + "\n___________________________________________________________________\nwww.otto.de\n\nwww.facebook.com/otto\n\nwww.twitter.com/otto_de\n\n___________________________________________________________________\n\n\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\n\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • \n\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\n\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •\n\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\n\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n\n___________________________________________________________________"
+document.getElementById("showinputhere").innerHTML = "success";
 navigator.clipboard.writeText(signature);
+alert("Signatur wurde erfolgreich in die Zwischenablage kopiert!");
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//window.onload = function () {
+//document.getElementById("inputfields").elements["company"].value = localStorage.getItem('company');
+//document.getElementById("inputfields").elements["firstname"].value = localStorage.getItem('firstname');
+//document.getElementById("inputfields").elements["surname"].value = localStorage.getItem('surname');
+//document.getElementById("inputfields").elements["position"].value = localStorage.getItem('position');
+//document.getElementById("inputfields").elements["departmentid"].value = localStorage.getItem('departmentid');
+//document.getElementById("inputfields").elements["department"].value = localStorage.getItem('department');
+//document.getElementById("inputfields").elements["email"].value = localStorage.getItem('email');
+//document.getElementById("inputfields").elements["mobilenr"].value = localStorage.getItem('mobilenr');
+//document.getElementById("inputfields").elements["faxnr"].value = localStorage.getItem(document.getElementById("inputfields").elements["faxnr"].id);
+//}
+
+//function copySignature() {
+  //let company = document.getElementById("inputfields").elements["company"].value;
+//  //localStorage.setItem('company', company);
+   // let firstname = document.getElementById("inputfields").elements["firstname"].value;
+    //localStorage.setItem('firstname', firstname);
+  //  let surname = document.getElementById("inputfields").elements["surname"].value;
+  //  localStorage.setItem('surname', surname);
+  //  let position = document.getElementById("inputfields").elements["position"].value;
+  //  localStorage.setItem('position', position);
+  //  let departmentid = document.getElementById("inputfields").elements["departmentid"].value;
+   // localStorage.setItem('departmentid', departmentid);
+   // let department = document.getElementById("inputfields").elements["department"].value;
+ //   localStorage.setItem('department', department);
+  //  let email = document.getElementById("inputfields").elements["email"].value;
+  //  localStorage.setItem('email', email);
+  //  let mobilenr = document.getElementById("inputfields").elements["mobilenr"].value;
+  //  localStorage.setItem('mobilenr', mobilenr);
+  //  let faxnr = document.getElementById("inputfields").elements["faxnr"].value;
+  //  localStorage.setItem(document.getElementById("inputfields").elements["faxnr"].id, faxnr);
+
+//let signature = "___________________________________________________________________\n" + firstname + " " + surname + "\n" + company +  " • " + position + " • "  + department + " • " + departmentid + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\nTelefon " + mobilenr + " • Telefax " + faxnr + "\n" + email + "\n___________________________________________________________________\nwww.otto.de\n\nwww.facebook.com/otto\n\nwww.twitter.com/otto_de\n\n___________________________________________________________________\n\n\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\n\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • \n\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\n\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •\n\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\n\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n\n___________________________________________________________________"
+//document.getElementById("showinputhere").innerHTML = document.getElementById("inputfields").elements["faxnr"].value;
+//navigator.clipboard.writeText(signature);
+//}
 </script>
 </body>
 </html>
