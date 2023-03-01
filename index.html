@@ -9,30 +9,30 @@
 
 <body>
 <div class="content">
-    <h1>OTTO Signatur erstellen oder aktualisieren</h1>
+    <h2>OTTO Signatur erstellen oder aktualisieren</h2>
     <form id="inputfields">
         Firma<br>
-        <input type="text" id="company" placeholder="Firma" /><br><br>
+        <input type="text" id="company" style="width:100%" placeholder="Firma" /><br><br>
         Vorname<br>
-        <input type="text" id="firstname" placeholder="Vorname" /><br><br>
+        <input type="text" id="firstname" style="width:100%" placeholder="Vorname" /><br><br>
         Nachname<br>
-        <input type="text" id="surname" placeholder="Nachname" /><br><br>
+        <input type="text" id="surname" style="width:100%" placeholder="Nachname" /><br><br>
         Position<br>
-        <input type="text" id="position" placeholder="Position" /><br><br>
+        <input type="text" id="position" style="width:100%" placeholder="Position" /><br><br>
         Abteilungskürzel<br>
-        <input type="text" id="departmentid" placeholder="Abteilungskürzel" /><br><br>
+        <input type="text" id="departmentid" style="width:100%"placeholder="Abteilungskürzel" /><br><br>
         Abteilung<br>
-        <input type="text" id="department" placeholder="Abteilung" /><br><br>
+        <input type="text" id="department" style="width:100%" placeholder="Abteilung" /><br><br>
         Email-Adresse<br>
-        <input type="text" id="email" placeholder="Email-Adresse" /><br><br>
+        <input type="text" id="email" style="width:100%" placeholder="Email-Adresse" /><br><br>
         Faxnummer<br>
-        <input type="text" id="faxnr" placeholder="Faxnnummer" /><br><br>
+        <input type="text" id="faxnr" style="width:100%" placeholder="Faxnnummer" /><br><br>
         Mobilnummer<br>
-        <input type="text" id="mobilenr" placeholder="Mobilnummer" /><br><br>
+        <input type="text" id="mobilenr" style="width:100%" placeholder="Mobilnummer" /><br><br>
     </form>
 
-    <button onclick="copySignature()">Copy signature to clipboard</button>
-    <button onclick="window.location.href = 'help.html';">HELP</button>
+    <button onclick="copySignature()">In die Zwischenablage kopieren</button>
+    <button onclick="window.location.href = 'help.html';">HILFE</button>
     <p id="showinputhere"></p>
 </div>
 <script>
@@ -49,7 +49,7 @@ function copySignature() {
     for (let i = 0; i< fields.length; i++){
         localStorage.setItem(fields[i].id, fields[i].value);
     }
-let signature = "___________________________________________________________________\n" + fields[0].value + " " + fields[1].value + "\n" + fields[2].value +  " • " + fields[3].value + " • "  + fields[4].value + " • " + fields[5].value + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\nTelefon " + fields[6].value + " • Telefax " + fields[7].value + "\n" + fields[8].value + "\n___________________________________________________________________\nwww.otto.de\n\nwww.facebook.com/otto\n\nwww.twitter.com/otto_de\n\n___________________________________________________________________\n\n\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\n\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • \n\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\n\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •\n\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\n\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n\n___________________________________________________________________"
+let signature = "___________________________________________________________________\n" + fields[1].value + " " + fields[2].value + "\n" + fields[0].value +  " • " + fields[3].value + " • "  + fields[4].value + " • " + fields[5].value + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\nTelefon " + fields[6].value + " • Telefax " + fields[7].value + "\n" + fields[8].value + "\n___________________________________________________________________\nwww.otto.de\n\nwww.facebook.com/otto\n\nwww.twitter.com/otto_de\n\n___________________________________________________________________\n\n\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\n\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • \n\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\n\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •\n\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\n\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n\n___________________________________________________________________"
 document.getElementById("showinputhere").innerHTML = "success";
 navigator.clipboard.writeText(signature);
 alert("Signatur wurde erfolgreich in die Zwischenablage kopiert!");
