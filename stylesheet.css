@@ -2,6 +2,13 @@
   margin: auto;
   width: 40%;
 }
-.body {
-width:100%;
+
+h2 {
+    text-align: center;
+}
+
+.buttons {
+    margin: auto;
+    text-align: center;
+    width: 20%;
 }
