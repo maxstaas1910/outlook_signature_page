@@ -66,6 +66,8 @@
 </div>
 
 <script>
+
+// load input field contents from local storage
 window.onload = function () {
 let fields = document.getElementById("inputfields");
 for (let i = 0; i< fields.length; i++){
@@ -73,6 +75,7 @@ for (let i = 0; i< fields.length; i++){
 }
 }
 
+// show or hide help box
 function toggleHelp() {
     let help = document.getElementById("help");
     if (help.style.display === "none") {
@@ -82,6 +85,7 @@ function toggleHelp() {
     }
 }
 
+// Reads user input, stores it in local storage and inserts the generated signature to clipboard
 function copySignature() {
     let fields = document.getElementById("inputfields");
     for (let i = 0; i< fields.length; i++){
