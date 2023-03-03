@@ -1,4 +1,4 @@
-#Nutzungsanleitung
+# Nutzungsanleitung
         
 1. Persönliche Daten eintragen. Bei Freilassen des Telefax-Feldes wird die dazugehörige Zeile aus der Signatur gelöscht. Bei Freilassen des Email-Feldes wird diese aus Vor- und Nachname automatisch generiert.
 
