@@ -2,12 +2,14 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="stylesheet.css">
     <meta charset="UTF-8">
     <title>Outlook Signature Tool</title>
 </head>
 
 <body>
+<div class="helpbutton">
+    <button onclick="toggleHelp()">Hilfe</button>
+</div>
 <div class="content">
     <h2>OTTO Signatur erstellen oder aktualisieren</h2>
     <form id="inputfields">
@@ -33,11 +35,37 @@
 </div>
 <div class="buttons">
     <button onclick="copySignature()">In die Zwischenablage kopieren</button>
-    <button onclick="window.location.href = 'help.html';">HILFE</button>
-    <p id="showinputhere"></p>
 </div>
-<script>
+<div id="help" class="help">
+    <button id="close" onclick="toggleHelp()">&times;</button>
+    <h2>Nutzungsanleitung</h2>
+    <p>
+        1. Persönliche Daten eintragen. Bei Freilassen des Telefax-Feldes wird die dazugehörige Zeile aus der Signatur gelöscht. Bei Freilassen des Email-Feldes wird diese aus Vor- und Nachname automatisch generiert.<br>
+    </p>
+    <p>
+        2. Durch Klicken des "In die Zwischenablage kopieren" Knopfes befindet sich die Signatur nun in der Zwischenablage und kann zu den Outlook-Signaturen hinzugefügt werden. <br>
+    </p>
+    <p>
+        3. Outlook über einen Browser öffnen. <br>
+    </p>
+    <p>
+        4. Oben Rechts auf das Zahnrad und danach auf "Alle Outlook-Einstellungen anzeigen" (Englisch: "View all Outlook Settings") klicken. <br>
+    </p>
+    <p>
+        5. In der linken Leiste erst das Feld "E-Mail" (Englisch: "Mail") und danach das Feld "Verfassen und Antworten" (E: "Compose and reply") auswählen. <br>
+    </p>
+    <p>
+        6. Auf "+ Neue Signatur" ("+ New Signature") klicken. Nun kann der Signatur im ersten Feld einen Namen gegeben werden. Im zweiten Feld kann nun die zuvor erzeugte Signatur mit Drücken von STRG und V oder mit einem Rechtsclick gefolgt von einem Klick auf "Einfügen" hinzugefügt werden.<br>
+    </p>
+    <p>
+        7. Unter dem Eingabefeld kann die Signatur nun als Standardsignatur für neue Nachrichten sowie Antworten und Weiterleitungen festgelegt werden.<br>
+    </p>
+    <p>
+        8. Mit Betätigung des "Speichern"-Knopfes am unteren rechten Rand des Fensters wird nun die neue Signatur gespeichert.
+    </p>
+</div>
 
+<script>
 window.onload = function () {
 let fields = document.getElementById("inputfields");
 for (let i = 0; i< fields.length; i++){
@@ -45,72 +73,98 @@ for (let i = 0; i< fields.length; i++){
 }
 }
 
+function toggleHelp() {
+    let help = document.getElementById("help");
+    if (help.style.display === "none") {
+        help.style.display = 'inline';
+    } else {
+        help.style.display = 'none';
+    }
+}
+
 function copySignature() {
     let fields = document.getElementById("inputfields");
     for (let i = 0; i< fields.length; i++){
         localStorage.setItem(fields[i].id, fields[i].value);
     }
-let signature = "___________________________________________________________________\n\n" + fields[1].value + " " + fields[2].value + "\n" + fields[0].value +  "\n" + fields[3].value + " • "  + fields[4].value + " • " + fields[5].value + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\nTelefon " + fields[7].value + " • Telefax " + fields[6].value + "\n" + fields[8].value + "\n___________________________________________________________________\n\nwww.otto.de\nwww.facebook.com/otto\nwww.twitter.com/otto_de\n___________________________________________________________________\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • \nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n___________________________________________________________________\n\nSAVE PAPER - THINK BEFORE YOU PRINT"
-document.getElementById("showinputhere").innerHTML = "success";
-navigator.clipboard.writeText(signature);
-alert("Signatur wurde erfolgreich in die Zwischenablage kopiert!");
+
+    // If telefax is not set, remove it from output entirely
+    var telefax;
+    if (fields[6].value) {
+        telefax = " • Telefax " + fields[6].value;
+    } else {
+        telefax = "";
+    }
+
+    // If email field is empty, generate it from name and surname
+    var email;
+    if(fields[8].value){
+        email = fields[6].value;
+    } else {
+        email = fields[1].value.toLowerCase() + fields[2].value.toLowerCase() + "@otto.de";
+    }
+
+    let signature = "___________________________________________________________________\n\n" + fields[1].value + " " + fields[2].value + "\n" + fields[0].value +  "\n" + fields[3].value + " • "  + fields[4].value + " • " + fields[5].value + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\nTelefon " + fields[7].value + telefax + "\n" + email + "\n___________________________________________________________________\n\nwww.otto.de\nwww.facebook.com/otto\nwww.twitter.com/otto_de\n___________________________________________________________________\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • \nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n___________________________________________________________________\n\nSAVE PAPER - THINK BEFORE YOU PRINT"
+    navigator.clipboard.writeText(signature);
+    alert("Signatur wurde erfolgreich in die Zwischenablage kopiert!");
+}
+
+</script>
+<style>
+.content {
+  margin: auto;
+  width: 40%;
+}
+
+h2 {
+    text-align: center;
+}
+
+.buttons {
+    margin: auto;
+    text-align: center;
+    width: 20%;
+}
+
+.helpbutton {
+    text-align: right;
+}
+
+.help{
+    display: none;
+    border:1px solid black;
+    background-color: #ffffff;
+    width: 420px;
+    padding: 30px 40px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+    display: none;
+    text-align: center;
+}
+
+.help button{
+    display: block;
+    margin:  0 0 20px auto;
+    cursor: pointer;
+}
+
+.help p{
+    font-size: 14px;
+    text-align: justify;
+    margin: 20px 0;
+    line-height: 25px;
+}
+
+.help h2{
+  margin-top: -20px;
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//window.onload = function () {
-//document.getElementById("inputfields").elements["company"].value = localStorage.getItem('company');
-//document.getElementById("inputfields").elements["firstname"].value = localStorage.getItem('firstname');
-//document.getElementById("inputfields").elements["surname"].value = localStorage.getItem('surname');
-//document.getElementById("inputfields").elements["position"].value = localStorage.getItem('position');
-//document.getElementById("inputfields").elements["departmentid"].value = localStorage.getItem('departmentid');
-//document.getElementById("inputfields").elements["department"].value = localStorage.getItem('department');
-//document.getElementById("inputfields").elements["email"].value = localStorage.getItem('email');
-//document.getElementById("inputfields").elements["mobilenr"].value = localStorage.getItem('mobilenr');
-//document.getElementById("inputfields").elements["faxnr"].value = localStorage.getItem(document.getElementById("inputfields").elements["faxnr"].id);
-//}
-
-//function copySignature() {
-  //let company = document.getElementById("inputfields").elements["company"].value;
-//  //localStorage.setItem('company', company);
-   // let firstname = document.getElementById("inputfields").elements["firstname"].value;
-    //localStorage.setItem('firstname', firstname);
-  //  let surname = document.getElementById("inputfields").elements["surname"].value;
-  //  localStorage.setItem('surname', surname);
-  //  let position = document.getElementById("inputfields").elements["position"].value;
-  //  localStorage.setItem('position', position);
-  //  let departmentid = document.getElementById("inputfields").elements["departmentid"].value;
-   // localStorage.setItem('departmentid', departmentid);
-   // let department = document.getElementById("inputfields").elements["department"].value;
- //   localStorage.setItem('department', department);
-  //  let email = document.getElementById("inputfields").elements["email"].value;
-  //  localStorage.setItem('email', email);
-  //  let mobilenr = document.getElementById("inputfields").elements["mobilenr"].value;
-  //  localStorage.setItem('mobilenr', mobilenr);
-  //  let faxnr = document.getElementById("inputfields").elements["faxnr"].value;
-  //  localStorage.setItem(document.getElementById("inputfields").elements["faxnr"].id, faxnr);
-
-//let signature = "___________________________________________________________________\n" + firstname + " " + surname + "\n" + company +  " • " + position + " • "  + department + " • " + departmentid + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\nTelefon " + mobilenr + " • Telefax " + faxnr + "\n" + email + "\n___________________________________________________________________\nwww.otto.de\n\nwww.facebook.com/otto\n\nwww.twitter.com/otto_de\n\n___________________________________________________________________\n\n\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\n\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • \n\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\n\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •\n\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\n\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n\n___________________________________________________________________"
-//document.getElementById("showinputhere").innerHTML = document.getElementById("inputfields").elements["faxnr"].value;
-//navigator.clipboard.writeText(signature);
-//}
-</script>
+a {
+    display: block;
+}
+</style>
 </body>
 </html>
