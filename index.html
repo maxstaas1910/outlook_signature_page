@@ -17,39 +17,39 @@
                 <div class="pure-g">
                     <div class="pure-u-1 pure-u-md-1-2">
                         <label for="firstname">Vorname</label>
-                        <input type="text" id="firstname" style="width:99%" placeholder="Max" oninput="updateTextArea()"/>
+                        <input type="text" id="firstname" style="width:99%" placeholder="Max" oninput="updateTextArea()" onchange="saveToLocalStorage()"/>
                     </div>
                     <div class="pure-u-1 pure-u-md-1-2">
                         <label for="surname" >Nachname</label>
-                        <input type="text" id="surname" style="width:99%" placeholder="Mustermann" oninput="updateTextArea()"/>
+                        <input type="text" id="surname" style="width:99%" placeholder="Mustermann" oninput="updateTextArea()" onchange="saveToLocalStorage()"/>
                     </div>
                     <div class="pure-u-1 pure-u-md-1-2">
                         <label for="position">Position</label>
-                        <input type="text" id="position" style="width:99%" placeholder="Praktikant" oninput="updateTextArea()"/>
+                        <input type="text" id="position" style="width:99%" placeholder="Praktikant" oninput="updateTextArea()" onchange="saveToLocalStorage()"/>
                     </div>
                     <div class="pure-u-1 pure-u-md-1-2">
                         <label for="department">Abteilung</label>
-                        <input type="text" id="department" style="width:99%" placeholder="Kommunikation" oninput="updateTextArea()"/>
+                        <input type="text" id="department" style="width:99%" placeholder="Kommunikation" oninput="updateTextArea()" onchange="saveToLocalStorage()"/>
                     </div>
                     <div class="pure-u-1 pure-u-md-1-2">
                         <label for="departmentid">Abteilungskürzel</label>
-                        <input type="text" id="departmentid" style="width:99%" placeholder="VV-WK" oninput="updateTextArea()"/>
+                        <input type="text" id="departmentid" style="width:99%" placeholder="VV-WK" oninput="updateTextArea()" onchange="saveToLocalStorage()"/>
                     </div>
                     <div class="pure-u-1 pure-u-md-1-2">
                         <label for="faxnr">Faxnummer</label>
-                        <input type="text" id="faxnr" style="width:99%" placeholder="Faxnnummer" oninput="updateTextArea()"/>
+                        <input type="text" id="faxnr" style="width:99%" placeholder="Faxnnummer" oninput="updateTextArea()" onchange="saveToLocalStorage()"/>
                     </div>
                     <div class="pure-u-1 pure-u-md-1-2">
                         <label for="phonenr">Telefonnummer</label>
-                        <input type="text" id="phonenr" style="width:99%" placeholder="0160 XXX XXX XXX" oninput="updateTextArea()"/>
+                        <input type="text" id="phonenr" style="width:99%" placeholder="0160 XXX XXX XXX" oninput="updateTextArea()" onchange="saveToLocalStorage()"/>
                     </div>
                     <div class="pure-u-1 pure-u-md-1-2">
                         <label for="mobilenr">Mobilnummer</label>
-                        <input type="text" id="mobilenr" style="width:99%" placeholder="0160 XXX XXX XXX" oninput="updateTextArea()"/>
+                        <input type="text" id="mobilenr" style="width:99%" placeholder="0160 XXX XXX XXX" oninput="updateTextArea()" onchange="saveToLocalStorage()"/>
                     </div>
                     <div class="pure-u-1 pure-u-md-1-2">
                         <label for="email">Email-Adresse</label>
-                        <input type="text" id="email" style="width:99%" placeholder="max.mustermann@otto.de" oninput="updateTextArea()"/>
+                        <input type="text" id="email" style="width:99%" placeholder="max.mustermann@otto.de" oninput="updateTextArea()" onchange="saveToLocalStorage()"/>
                     </div>
                     <div class="pure-u-1 pure-u-md-1-2" style="text-align: center">
                         <label for="copySignatureButton"><br></label>
@@ -62,11 +62,9 @@
     </div>
 </div>
 <div class="outputbox" style="margin-top: 1%;">
-    <div class="preview" style="text-align: center">
-        <h2>Signatur:</h2>
+    <h2>Signatur:</h2>
+    <div class="preview" style="text-align: left; margin:auto; width:50%; border:1px solid lightgrey; padding: 30px 40px; box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);">
         <form id="outputfield" class="pure-form">
-            <textarea rows="17" id="output" style="resize: none; width: 70%" wrap="off" readonly>
-            </textarea>
         </form>
     </div>
 </div>
@@ -123,14 +121,14 @@ function toggleHelp() {
 // Reads user input, stores it in local storage and inserts the generated signature to clipboard
 function copySignature() {
     let fields = document.getElementById("inputfields");
-    saveToLocalStorage(fields);
+    saveToLocalStorage();
 
     navigator.clipboard.writeText(generateSignature(fields));
     alert("Signatur wurde erfolgreich in die Zwischenablage kopiert!");
 }
 
 function generateSignature(fields) {
-    return "___________________________________________________________________\n\n" + fields[1].value + " " + fields[2].value +  "\n" + fields[3].value + " • "  + fields[4].value + " • " + fields[5].value + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\n" + checkIfPhoneMobileTelefaxAreSet(fields[6].value, fields[7].value, fields[8].value) + "\n" + checkIfEmailIsSet(fields[1].value, fields[2].value, fields[9].value) + "\n___________________________________________________________________\n\nwww.otto.de\nwww.facebook.com/otto\nwww.twitter.com/otto_de\n___________________________________________________________________\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • \nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n___________________________________________________________________\n\nSAVE PAPER - THINK BEFORE YOU PRINT";
+    return "<span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'> ___________________________________________________________________<br><br>" + fields[1].value + " " + fields[2].value +  "<br>" + fields[3].value + " • "  + fields[4].value + " • " + fields[5].value + "<br><br>Otto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg<br>A member of the Otto Group<br>" + checkIfPhoneMobileTelefaxAreSet(fields[6].value, fields[7].value, fields[8].value) + "<br>" + checkIfEmailIsSet(fields[1].value, fields[2].value, fields[9].value) + "<br>___________________________________________________________________<br><br>www.otto.de\nwww.facebook.com/otto\nwww.twitter.com/otto_de<br>___________________________________________________________________</span><br><br><span style='font-size:8.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>AG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,<br>Hamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • <br>Dr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur<br><br>Bereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •<br>Dr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)<br><br>Aufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)<br></span><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>___________________________________________________________________</span><br><br><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#00B050'>SAVE PAPER - THINK BEFORE YOU PRINT</span>";
 }
 
 function checkIfPhoneMobileTelefaxAreSet(faxField, phonenrField, mobilenrField) {
@@ -158,14 +156,15 @@ function checkIfEmailIsSet(name, surname, emailField) {
     }
 }
 
-function saveToLocalStorage(fields) {
+function saveToLocalStorage() {
+    let fields = document.getElementById("inputfields");
     for (let i = 0; i< fields.length; i++){
         localStorage.setItem(fields[i].id, fields[i].value);
     }
 }
 
 function updateTextArea() {
-    document.getElementById("output").value = generateSignature(document.getElementById("inputfields"));
+    document.getElementById("outputfield").innerHTML = generateSignature(document.getElementById("inputfields"));
 }
 
 </script>
