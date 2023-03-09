@@ -10,7 +10,7 @@
 <body>
 <div class="inputbox">
     <div class="content">
-        <h2>OTTO Signatur erstellen oder aktualisieren</h2>
+        <h2><span style="color: #D4021D">OTTO</span> Signatur erstellen oder aktualisieren</h2>
         <form id="inputfields" class="pure-form pure-form-stacked">
             <fieldset>
                 <legend>Deine Daten prüfen und anpassen</legend>
@@ -53,7 +53,7 @@
                     </div>
                     <div class="pure-u-1 pure-u-md-1-2" style="text-align: center">
                         <label for="copySignatureButton"><br></label>
-                        <button type="button" class="pure-button" id="copySignatureButton" onclick="copySignature()">In die Zwischenablage kopieren</button>
+                        <button type="button" class="pure-button" id="copySignatureButton" onclick="copyToClip()">In die Zwischenablage kopieren</button>
                         <button type="button" class="pure-button" onclick="toggleHelp()">Hilfe</button>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
 </div>
 <div class="outputbox" style="margin-top: 1%;">
     <h2>Signatur:</h2>
-    <div class="preview" style="text-align: left; margin:auto; width:50%; border:1px solid lightgrey; padding: 30px 40px; box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);">
+    <div class="preview">
         <form id="outputfield" class="pure-form">
         </form>
     </div>
@@ -105,7 +105,44 @@ window.onload = function () {
     for (let i = 0; i< fields.length; i++){
         fields[i].value = localStorage.getItem(fields[i].id);
     }
-    updateTextArea();
+    updatePreview();
+}
+
+// Saves user input to local storage
+function saveToLocalStorage() {
+    let fields = document.getElementById("inputfields");
+    for (let i = 0; i< fields.length; i++){
+        localStorage.setItem(fields[i].id, fields[i].value);
+    }
+}
+
+function updatePreview() {
+    document.getElementById("outputfield").innerHTML = generateRichSignature(document.getElementById("inputfields"));
+}
+
+function generateRichSignature(fields) {
+    return "<span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'> ___________________________________________________________________<br><br>" + fields[1].value + " " + fields[2].value +  "<br>" + fields[3].value + " • "  + fields[4].value + " • " + fields[5].value + "<br><br>Otto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg<br>A member of the Otto Group<br>" + checkIfPhoneMobileTelefaxAreSet(fields[6].value, fields[7].value, fields[8].value) + "<br>" + checkIfEmailIsSet(fields[1].value, fields[2].value, fields[9].value) + "<br>___________________________________________________________________<br><br>www.otto.de<br>www.facebook.com/otto<br>www.twitter.com/otto_de<br>___________________________________________________________________</span><br><br><span style='font-size:8.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>AG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,<br>Hamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • <br>Dr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur<br><br>Bereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •<br>Dr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)<br><br>Aufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)<br></span><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>___________________________________________________________________</span><br><br><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#00B050'>SAVE PAPER - THINK BEFORE YOU PRINT</span>";
+}
+
+function generatePlainSignature(fields) {
+    return "___________________________________________________________________\n\n" + fields[1].value + " " + fields[2].value +  "\n" + fields[3].value + " • "  + fields[4].value + " • " + fields[5].value + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\n" + checkIfPhoneMobileTelefaxAreSet(fields[6].value, fields[7].value, fields[8].value) + "\n" + checkIfEmailIsSet(fields[1].value, fields[2].value, fields[9].value) + "\n___________________________________________________________________\n\nwww.otto.de\nwww.facebook.com/otto\nwww.twitter.com/otto_de\n___________________________________________________________________\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • \nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n___________________________________________________________________\n\nSAVE PAPER - THINK BEFORE YOU PRINT";
+}
+
+// Reads user input, stores it in local storage and inserts the generated signature to clipboard
+function copyToClip() {
+  let fields = document.getElementById("inputfields");
+  saveToLocalStorage();
+
+  function listener(e) {
+    e.clipboardData.setData("text/html", generateRichSignature(fields));
+    e.clipboardData.setData("text/plain", generatePlainSignature(fields));
+    e.preventDefault();
+  }
+  document.addEventListener("copy", listener);
+  document.execCommand("copy");
+  document.removeEventListener("copy", listener);
+
+  alert("Signatur in Zwischenablage kopiert");
 }
 
 // show or hide help box
@@ -118,19 +155,7 @@ function toggleHelp() {
     }
 }
 
-// Reads user input, stores it in local storage and inserts the generated signature to clipboard
-function copySignature() {
-    let fields = document.getElementById("inputfields");
-    saveToLocalStorage();
-
-    navigator.clipboard.writeText(generateSignature(fields));
-    alert("Signatur wurde erfolgreich in die Zwischenablage kopiert!");
-}
-
-function generateSignature(fields) {
-    return "<span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'> ___________________________________________________________________<br><br>" + fields[1].value + " " + fields[2].value +  "<br>" + fields[3].value + " • "  + fields[4].value + " • " + fields[5].value + "<br><br>Otto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg<br>A member of the Otto Group<br>" + checkIfPhoneMobileTelefaxAreSet(fields[6].value, fields[7].value, fields[8].value) + "<br>" + checkIfEmailIsSet(fields[1].value, fields[2].value, fields[9].value) + "<br>___________________________________________________________________<br><br>www.otto.de\nwww.facebook.com/otto\nwww.twitter.com/otto_de<br>___________________________________________________________________</span><br><br><span style='font-size:8.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>AG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,<br>Hamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender) • <br>Dr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur<br><br>Bereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper •<br>Dr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)<br><br>Aufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)<br></span><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>___________________________________________________________________</span><br><br><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#00B050'>SAVE PAPER - THINK BEFORE YOU PRINT</span>";
-}
-
+// Since sometimes not all 3 fields are given, formats the line correctly and causes no doubled or missing "•"
 function checkIfPhoneMobileTelefaxAreSet(faxField, phonenrField, mobilenrField) {
     // TODO clean this up
     let fax = "", phonenr =  "", mobilenr = "";
@@ -148,6 +173,7 @@ function checkIfPhoneMobileTelefaxAreSet(faxField, phonenrField, mobilenrField) 
     return phonenr + fax + mobilenr;
 }
 
+// If email field is empty, generate email from first and surname
 function checkIfEmailIsSet(name, surname, emailField) {
     if(emailField){
         return emailField;
@@ -156,53 +182,48 @@ function checkIfEmailIsSet(name, surname, emailField) {
     }
 }
 
-function saveToLocalStorage() {
-    let fields = document.getElementById("inputfields");
-    for (let i = 0; i< fields.length; i++){
-        localStorage.setItem(fields[i].id, fields[i].value);
-    }
-}
-
-function updateTextArea() {
-    document.getElementById("outputfield").innerHTML = generateSignature(document.getElementById("inputfields"));
-}
-
 </script>
 
 <style>
 
-.inputbox, .outputbox {
-  max-width: 80%;
-  padding: 1em 3em 2em 3em;
-  margin: 0em auto;
-  background-color: #fff;
-  border-radius: 4.2px;
-  box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
+html, body {
+    height: 100%;
+    padding: 1em;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    color: #b9b9b9;
+    background-color: #e3e3e3;
 }
 
-body {
-  padding: 1em;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  color: #b9b9b9;
-  background-color: #e3e3e3;
-}
-
-.button-secondary {
-            background: rgb(66, 184, 221);
-}
-
-.help button{
-    display: block;
-    margin:  0 0 20px auto;
-    cursor: pointer;
-}
 h2 {
     text-align: center;
 }
 
+.inputbox, .outputbox {
+    max-width: 80%;
+    padding: 1em 3em 2em 3em;
+    margin: 0em auto;
+    background-color: #fff;
+    border-radius: 4.2px;
+    box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
+}
+
+.button-secondary {
+    background: rgb(66, 184, 221);
+}
+
+.preview{
+    text-align: left;
+    margin:auto;
+    width:50%;
+    border:1px solid lightgrey;
+    padding: 30px 40px;
+    box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
+}
+
 .help {
     display: none;
+    color: black;
     border:1px solid black;
     background-color: #ffffff;
     width: 420px;
@@ -215,6 +236,16 @@ h2 {
     text-align: center;
 }
 
+.help button{
+    display: block;
+    margin:  0 0 20px auto;
+    cursor: pointer;
+}
+
+.help h2{
+    margin-top: -20px;
+}
+
 .help p{
     font-size: 14px;
     text-align: justify;
@@ -222,13 +253,6 @@ h2 {
     line-height: 25px;
 }
 
-.help h2{
-  margin-top: -20px;
-}
-
-a {
-    display: block;
-}
 </style>
 </body>
 </html>
