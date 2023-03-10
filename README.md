@@ -1,8 +1,8 @@
-###Übersicht###
+# Übersicht #
 
 Mithilfe dieser HTML Single-Page-App lassen sich auf Linux und Mac Systemen Outlook-Signaturen für OTTO-Mitarbeiter, ähnlich wie mit dem OTTO Outlook Signatur Tool für Windows, generieren. 
 
-####Funktionsüberblick:####
+### Funktionsüberblick: ###
  - Nach erstmaliger Eingabe der Daten werden diese lokal im Browser gespeichert, sodass zukünftig nur noch minimale Änderungen nötig sind. 
  - Das Vorschau Feld gibt einen Einblick darin, wie die Signatur aussehen wird.
  - Nach Kopieren der fertigen Signatur in die Zwischenablage kann diese problemlos sowohl in einen Plaintext- als auch einen Richtexteditor eingefügt werden.
@@ -10,7 +10,7 @@ Mithilfe dieser HTML Single-Page-App lassen sich auf Linux und Mac Systemen Outl
  - Bei Freilassen des Email-Feldes wird diese aus Vor- und Nachname automatisch generiert
  - Telefon-, Mobil- und Faxnummerfelder können freigelassen werdem, ohne dass Formattierungsfehler auftreten.
 
-#Nutzungsanleitung#
+# Nutzungsanleitung #
         
 1. Persönliche Daten eintragen. Bei Freilassen des Fax-, Telefon-, oder Mobilnummer-Feldes wird die dazugehörige Zeile aus der Signatur entsprechend angepasst. Bei Freilassen des Email-Feldes wird diese aus Vor- und Nachname automatisch generiert.
 2. Durch Klicken des "In die Zwischenablage kopieren" Knopfes befindet sich die Signatur nun in der Zwischenablage und kann zu den Outlook-Signaturen hinzugefügt werden.
