@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- translate english page, update readme with description of what this is, not just how to use
-(single page to make signature etc.), cleanup and comment code, -->
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
@@ -82,9 +80,9 @@
                         <div class="pure-u-1 pure-u-md-1-2" style="text-align: center">
                             <label for="buttons"></label><br>
                             <button type="button" id="buttons" class="pure-button german" style="display: none" onclick="copyToClip()">In die Zwischenablage kopieren</button>
-                            <button type="button" class="pure-button german" style="display: none" onclick="toggleHelp()">Hilfe</button>
+                            <button type="button" class="pure-button german" style="display: none" onclick="toggleHelpVisibility()">Hilfe</button>
                             <button type="button" class="pure-button english" style="display: none" onclick="copyToClip()">Copy to clipboard</button>
-                            <button type="button" class="pure-button english" style="display: none" onclick="toggleHelp()">Help</button>
+                            <button type="button" class="pure-button english" style="display: none" onclick="toggleHelpVisibility()">Help</button>
                         </div>
                     </div>
                 </fieldset>
@@ -100,7 +98,7 @@
         </div>
     </div>
     <div id="help" class="help">
-        <button id="close" onclick="toggleHelp()">&times;</button>
+        <button id="close" onclick="toggleHelpVisibility()">&times;</button>
         <div class="german" style="display:none">
             <h2>Nutzungsanleitung</h2>
             <p>
@@ -158,39 +156,39 @@
     </div>
 </div>
 <script>
-// global constants holding the language specific parts of signature
+
+// global constants holding the language specific strings: [name for telefax, name for telefax, name for mobilenumber,
+// rich string with otto signature details, plain string with otto signature details]
 const germanStrings = ["Telefon", "Telefax", "Mobiltelefon", "AG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,<br>Hamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender)<br>Dr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur<br><br>Bereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper<br>Dr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)<br><br>Aufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)<br></span><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>", "\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender)\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n", "Signatur erfolgreich in Zwischenablage kopiert!"];
 const englishStrings = ["Phone", "Fax", "Mobile", "Local court of Hamburg, HR A 62 024, General Partner: Verwaltungsgesellschaft Otto GmbH,<br>Hamburg, local court of Hamburg, HR B 13 762 represented by: Alexander Birken (Chairman)<br>Dr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur<br><br>Members of the OTTO Management Board: Marc Opelt (Chairman) • Bodo Kipper<br>Dr Michael Müller-Wünsch • Katy Roewer (special proxy holders)<br><br>Supervisory Board: Prof. Dr. Michael Otto (Chairman)<br>", "Local court of Hamburg, HR A 62 024, General Partner: Verwaltungsgesellschaft Otto GmbH,\nHamburg, local court of Hamburg, HR B 13 762 represented by: Alexander Birken (Chairman)\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\nMembers of the OTTO Management Board: Marc Opelt (Chairman) • Bodo Kipper\nDr Michael Müller-Wünsch • Katy Roewer (special proxy holders)\n\nSupervisory Board: Prof. Dr. Michael Otto (Chairman)\n", "Signature copied to clipboard successfully!"];
+
+const fields =  document.getElementById("inputfields");
 const language = (localStorage.getItem("language")) ? localStorage.getItem("language") : "german";
 
-
-// load input field contents from local storage
+// on load fill input fields with locally stored values; make elements in the correct item visible and update the preview
+// window with the loaded values for input fields
 window.onload = function () {
-
-    let fields = document.getElementById("inputfields");
     for (let i = 0; i< fields.length; i++){
         fields[i].value = localStorage.getItem(fields[i].id);
     }
-
     toggleLanguage();
-
     updatePreview();
 }
 
 // Saves user input to local storage
 function saveToLocalStorage() {
-    let fields = document.getElementById("inputfields");
     for (let i = 0; i< fields.length; i++){
         localStorage.setItem(fields[i].id, fields[i].value);
     }
 }
 
+// update the preview window at the bottom of page
 function updatePreview() {
     document.getElementById("outputfield").innerHTML = generateRichSignature(getFields());
 }
 
+// looks at all the input fields on page and collects all fields with the correct language into an array
 function getFields() {
-    let fields = document.getElementById("inputfields");
     let languageFields = [];
     for (let i = 0; i< fields.length; i++){
         if (fields[i].className == language) {
@@ -208,7 +206,6 @@ function generatePlainSignature(fields) {
     return "___________________________________________________________________\n\n" + fields[0] + " " + fields[1] +  "\n" + fields[2] + " • "  + fields[3] + " • " + fields[4] + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\n" + checkIfPhoneMobileTelefaxAreSet(fields[5], fields[6], fields[7]) + "\n" + checkIfEmailIsSet(fields[0], fields[1], fields[8]) + "\n___________________________________________________________________\n\nwww.otto.de\nwww.facebook.com/otto\nwww.twitter.com/otto_de\n___________________________________________________________________\n\n" + eval(language  + "Strings")[4] + "___________________________________________________________________\n\nSAVE PAPER - THINK BEFORE YOU PRINT";
 }
 
-// Reads user input, stores it in local storage and inserts the generated signature to clipboard
 function copyToClip() {
   saveToLocalStorage(getFields());
   function listener(e) {
@@ -223,8 +220,7 @@ function copyToClip() {
   alert(eval(language + "Strings")[5]);
 }
 
-// show or hide help box
-function toggleHelp() {
+function toggleHelpVisibility() {
     let help = document.getElementById("help");
     if (help.style.display == "inline") {
         help.style.display = 'none';
@@ -235,7 +231,6 @@ function toggleHelp() {
 
 // Since sometimes not all 3 fields are given, formats the line correctly and causes no doubled or missing "•"
 function checkIfPhoneMobileTelefaxAreSet(faxField, phonenrField, mobilenrField) {
-    // TODO clean this up
     let fax = "", phonenr =  "", mobilenr = "";
 
     let languageTel = eval(language + "Strings")[0];
@@ -269,12 +264,14 @@ function setLanguage(newLanguage) {
     location.reload();
 }
 
+// make page elements visible if they have the correct language
 function toggleLanguage() {
     let languagecontent = document.getElementsByClassName(language);
     for (var i = 0; i < languagecontent.length; i++) {
         languagecontent[i].style.display = "inline";
     }
 }
+
 </script>
 
 <style>
