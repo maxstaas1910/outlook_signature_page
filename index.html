@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css" />
     <title>Outlook Signature Tool</title>
 </head>
-<body oncopy="return false" onpaste="return false" oncut="return false">
+<body >
 <div>
     <div class="inputbox">
         <div class="content">
@@ -102,7 +102,7 @@
         <div class="german" style="display:none">
             <h2>Nutzungsanleitung</h2>
             <p>
-                1. Persönliche Daten eintragen. Bei Freilassen des Faxr-, Telefon-, oder Mobilnummer-Feldes wird die dazugehörige Zeile aus der Signatur entsprechend angepasst. Bei Freilassen des Email-Feldes wird diese aus Vor- und Nachname automatisch generiert.<br>
+                1. Persönliche Daten eintragen. Bei Freilassen des Fax-, Telefon-, oder Mobilnummer-Feldes wird die dazugehörige Zeile aus der Signatur entsprechend angepasst. Bei Freilassen des Email-Feldes wird diese aus Vor- und Nachname automatisch generiert.<br>
             </p>
             <p>
                 2. Durch Klicken des "In die Zwischenablage kopieren" Knopfes befindet sich die Signatur nun in der Zwischenablage und kann zu den Outlook-Signaturen hinzugefügt werden. <br>
@@ -163,7 +163,8 @@ const germanStrings = ["Telefon", "Telefax", "Mobiltelefon", "AG Hamburg, HR A 6
 const englishStrings = ["Phone", "Fax", "Mobile", "Local court of Hamburg, HR A 62 024, General Partner: Verwaltungsgesellschaft Otto GmbH,<br>Hamburg, local court of Hamburg, HR B 13 762 represented by: Alexander Birken (Chairman)<br>Dr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur<br><br>Members of the OTTO Management Board: Marc Opelt (Chairman) • Bodo Kipper<br>Dr Michael Müller-Wünsch • Katy Roewer (special proxy holders)<br><br>Supervisory Board: Prof. Dr. Michael Otto (Chairman)<br>", "Local court of Hamburg, HR A 62 024, General Partner: Verwaltungsgesellschaft Otto GmbH,\nHamburg, local court of Hamburg, HR B 13 762 represented by: Alexander Birken (Chairman)\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\nMembers of the OTTO Management Board: Marc Opelt (Chairman) • Bodo Kipper\nDr Michael Müller-Wünsch • Katy Roewer (special proxy holders)\n\nSupervisory Board: Prof. Dr. Michael Otto (Chairman)\n", "Signature copied to clipboard successfully!"];
 
 const fields =  document.getElementById("inputfields");
-const language = (localStorage.getItem("language")) ? localStorage.getItem("language") : "german";
+const browserLanguage = window.navigator.userLanguage || window.navigator.language;
+const pageLanguage = getPageLanguage();
 
 // on load fill input fields with locally stored values; make elements in the correct item visible and update the preview
 // window with the loaded values for input fields
@@ -191,7 +192,7 @@ function updatePreview() {
 function getFields() {
     let languageFields = [];
     for (let i = 0; i< fields.length; i++){
-        if (fields[i].className == language) {
+        if (fields[i].className == pageLanguage) {
             languageFields.push(fields[i].value);
         }
     }
@@ -199,11 +200,11 @@ function getFields() {
 }
 
 function generateRichSignature(fields) {
-    return "<span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'> ___________________________________________________________________<br><br>" + fields[0] + " " + fields[1] +  "<br>" + fields[2] + " • "  + fields[3] + " • " + fields[4] + "<br><br>Otto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg<br>A member of the Otto Group<br>" + checkIfPhoneMobileTelefaxAreSet(fields[5], fields[6], fields[7]) + "<br>" + checkIfEmailIsSet(fields[0], fields[1], fields[8]) + "<br>___________________________________________________________________<br><br>www.otto.de<br>www.facebook.com/otto<br>www.twitter.com/otto_de<br>___________________________________________________________________</span><br><br><span style='font-size:8.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>" + eval(language  + "Strings")[3] + "___________________________________________________________________</span><br><br><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#00B050'>SAVE PAPER - THINK BEFORE YOU PRINT</span>";
+    return "<span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'> ___________________________________________________________________<br><br>" + fields[0] + " " + fields[1] +  "<br>" + fields[2] + " • "  + fields[3] + " • " + fields[4] + "<br><br>Otto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg<br>A member of the Otto Group<br>" + checkIfPhoneMobileTelefaxAreSet(fields[5], fields[6], fields[7]) + "<br>" + checkIfEmailIsSet(fields[0], fields[1], fields[8]) + "<br>___________________________________________________________________<br><br>www.otto.de<br>www.facebook.com/otto<br>www.twitter.com/otto_de<br>___________________________________________________________________</span><br><br><span style='font-size:8.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>" + eval(pageLanguage  + "Strings")[3] + "___________________________________________________________________</span><br><br><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#00B050'>SAVE PAPER - THINK BEFORE YOU PRINT</span>";
 }
 
 function generatePlainSignature(fields) {
-    return "___________________________________________________________________\n\n" + fields[0] + " " + fields[1] +  "\n" + fields[2] + " • "  + fields[3] + " • " + fields[4] + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\n" + checkIfPhoneMobileTelefaxAreSet(fields[5], fields[6], fields[7]) + "\n" + checkIfEmailIsSet(fields[0], fields[1], fields[8]) + "\n___________________________________________________________________\n\nwww.otto.de\nwww.facebook.com/otto\nwww.twitter.com/otto_de\n___________________________________________________________________\n\n" + eval(language  + "Strings")[4] + "___________________________________________________________________\n\nSAVE PAPER - THINK BEFORE YOU PRINT";
+    return "___________________________________________________________________\n\n" + fields[0] + " " + fields[1] +  "\n" + fields[2] + " • "  + fields[3] + " • " + fields[4] + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\n" + checkIfPhoneMobileTelefaxAreSet(fields[5], fields[6], fields[7]) + "\n" + checkIfEmailIsSet(fields[0], fields[1], fields[8]) + "\n___________________________________________________________________\n\nwww.otto.de\nwww.facebook.com/otto\nwww.twitter.com/otto_de\n___________________________________________________________________\n\n" + eval(pageLanguage  + "Strings")[4] + "___________________________________________________________________\n\nSAVE PAPER - THINK BEFORE YOU PRINT";
 }
 
 function copyToClip() {
@@ -217,7 +218,7 @@ function copyToClip() {
   document.execCommand("copy");
   document.removeEventListener("copy", listener);
 
-  alert(eval(language + "Strings")[5]);
+  alert(eval(pageLanguage + "Strings")[5]);
 }
 
 function toggleHelpVisibility() {
@@ -233,9 +234,9 @@ function toggleHelpVisibility() {
 function checkIfPhoneMobileTelefaxAreSet(faxField, phonenrField, mobilenrField) {
     let fax = "", phonenr =  "", mobilenr = "";
 
-    let languageTel = eval(language + "Strings")[0];
-    let languageFax = eval(language + "Strings")[1];
-    let languageMob = eval(language + "Strings")[2];
+    let languageTel = eval(pageLanguage + "Strings")[0];
+    let languageFax = eval(pageLanguage + "Strings")[1];
+    let languageMob = eval(pageLanguage + "Strings")[2];
 
     if (phonenrField) phonenr = languageTel + " " + phonenrField;
 
@@ -266,9 +267,21 @@ function setLanguage(newLanguage) {
 
 // make page elements visible if they have the correct language
 function toggleLanguage() {
-    let languagecontent = document.getElementsByClassName(language);
+    let languagecontent = document.getElementsByClassName(pageLanguage);
     for (var i = 0; i < languagecontent.length; i++) {
         languagecontent[i].style.display = "inline";
+    }
+}
+
+// if user has language in cookie, use that one. If not and user has english browser, page is english. Otherwise display
+// page in german
+function getPageLanguage() {
+    if ((localStorage.getItem("language"))) {
+        return localStorage.getItem("language");
+    } else if (browserLanguage.slice(0,2)=="en") {
+        return "english";
+    } else {
+        return "german";
     }
 }
 

@@ -7,6 +7,7 @@ Mithilfe dieser HTML Single-Page-App lassen sich auf Linux und Mac Systemen Outl
  - Das Vorschau Feld gibt einen Einblick darin, wie die Signatur aussehen wird.
  - Nach Kopieren der fertigen Signatur in die Zwischenablage kann diese problemlos sowohl in einen Plaintext- als auch einen Richtexteditor eingefügt werden.
  - Die Seite ist auf English und auf Deutsch darstellbar und unterstützt beide Signaturen.
+   - Bei erstem Aufrufen wird die Browsersprache übernommen, ab dem zweiten Mal dan die vom Nutzer ausgewählte Sprache beibehalten
  - Bei Freilassen des Email-Feldes wird diese aus Vor- und Nachname automatisch generiert
  - Telefon-, Mobil- und Faxnummerfelder können freigelassen werdem, ohne dass Formattierungsfehler auftreten.
 
