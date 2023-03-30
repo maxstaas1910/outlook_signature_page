@@ -9,9 +9,9 @@
 </head>
 <body >
 <div>
-    <div class="inputbox">
+    <div class="inputbox" id="inputbox">
         <div class="content">
-            <div id="languagebuttons" style="text-align: right; font-size:20px">
+            <div id="languagebuttons" class="languagebuttons">
                 <button id="germanbutton" title="German Page" class="languagebutton" onclick="setLanguage('german')">&#x1F1E9;&#x1F1EA;</button>
                 <button id="englishbutton" title="English Page" class="languagebutton" onclick="setLanguage('english')">&#x1F1EC;&#x1F1E7;</button>
             </div>
@@ -90,7 +90,7 @@
             </form>
         </div>
     </div>
-    <div class="outputbox" style="margin-top: 1%;">
+    <div class="outputbox" id="outputbox" style="margin-top: 1%;">
         <h2 class="german" >Signatur:</h2>
         <h2 class="english" >Signature:</h2>
         <div class="preview">
@@ -224,10 +224,16 @@ function copyToClip() {
 
 function toggleHelpVisibility() {
     let help = document.getElementById("help");
+    let input = document.getElementById("inputbox");
+    let output = document.getElementById("outputbox");
     if (help.style.display == "inline") {
+        input.style.display = 'block';
+        output.style.display = 'block';
         help.style.display = 'none';
     } else {
         help.style.display = 'inline';
+        input.style.display = 'none';
+        output.style.display = 'none';
     }
 }
 
@@ -298,6 +304,10 @@ html, body {
     background-color:  #C4C4C4;
 }
 
+.languagebuttons {
+    text-align: right;
+    font-size:20px;
+}
 .german, .english {
     display: none;
 }
@@ -314,6 +324,7 @@ h2 {
     background-color: #fff;
     border-radius: 4.2px;
     box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
+    display: block;
 }
 
 .button-secondary {
@@ -332,15 +343,17 @@ h2 {
 .help {
     display: none;
     color: black;
-    border:1px solid black;
-    background-color: #ffffff;
-    max-width: 80%;
     padding: 30px 40px;
     position: absolute;
     transform: translate(-50%,-50%);
     left: 50%;
     top: 50%;
+    max-width: 80%;
     text-align: center;
+    margin: 0em auto;
+    background-color: #fff;
+    border-radius: 4.2px;
+    box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
 }
 
 .help button{
