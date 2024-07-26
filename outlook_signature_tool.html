@@ -160,8 +160,33 @@
 
 // global constants holding the language specific strings: [name for telefax, name for telefax, name for mobilenumber,
 // rich string with otto signature details, plain string with otto signature details]
-const germanStrings = ["Telefon", "Telefax", "Mobiltelefon", "AG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,<br>Hamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender)<br>Dr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur<br><br>Bereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper<br>Dr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)<br><br>Aufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)<br></span><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>", "\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH,\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender)\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper\nDr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)\n", "Signatur erfolgreich in Zwischenablage kopiert!"];
-const englishStrings = ["Phone", "Fax", "Mobile", "Local court of Hamburg, HR A 62 024, General Partner: Verwaltungsgesellschaft Otto GmbH,<br>Hamburg, local court of Hamburg, HR B 13 762 represented by: Alexander Birken (Chairman)<br>Dr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur<br><br>Members of the OTTO Management Board: Marc Opelt (Chairman) • Bodo Kipper<br>Dr Michael Müller-Wünsch • Katy Roewer (special proxy holders)<br><br>Supervisory Board: Prof. Dr. Michael Otto (Chairman)<br>", "Local court of Hamburg, HR A 62 024, General Partner: Verwaltungsgesellschaft Otto GmbH,\nHamburg, local court of Hamburg, HR B 13 762 represented by: Alexander Birken (Chairman)\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\nMembers of the OTTO Management Board: Marc Opelt (Chairman) • Bodo Kipper\nDr Michael Müller-Wünsch • Katy Roewer (special proxy holders)\n\nSupervisory Board: Prof. Dr. Michael Otto (Chairman)\n", "Signature copied to clipboard successfully!"];
+const germanStrings = ["Telefon", "Telefax", "Mobiltelefon",
+    "AG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH," +
+    "<br>Hamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender)" +
+    "<br>Dr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • " +
+    "Kay Schiebur<br><br>Bereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper<br>" +
+    "Dr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)<br><br>" +
+    "Aufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)<br></span><span style='font-size:10.0pt; " +
+    "font-family:&quot;Arial&quot;,sans-serif; color:black'>",
+    "\n\nAG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto GmbH," +
+    "\nHamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender)" +
+    "\nDr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur" +
+    "\n\nBereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper\nDr. Michael Müller-Wünsch • " +
+    "Katy Roewer (jeweils Handlungsbevollmächtigte)\n\nAufsichtsrat: Prof. Dr. Michael Otto (Vorsitzender)" +
+    "\n", "Signatur erfolgreich in Zwischenablage kopiert!"];
+const englishStrings = ["Phone", "Fax", "Mobile",
+    "Local court of Hamburg, HR A 62 024, General Partner: Verwaltungsgesellschaft Otto GmbH," +
+    "<br>Hamburg, local court of Hamburg, HR B 13 762 represented by: Alexander Birken (Chairman)" +
+    "<br>Dr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur" +
+    "<br><br>Members of the OTTO Management Board: Marc Opelt (Chairman) • Bodo Kipper<br>" +
+    "Dr Michael Müller-Wünsch • Katy Roewer (special proxy holders)<br><br>" +
+    "Supervisory Board: Prof. Dr. Michael Otto (Chairman)<br>",
+    "Local court of Hamburg, HR A 62 024, General Partner: Verwaltungsgesellschaft Otto GmbH," +
+    "\nHamburg, local court of Hamburg, HR B 13 762 represented by: Alexander Birken (Chairman)\n" +
+    "Dr. Marcus Ackermann • Sergio Bucher • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur\n\n" +
+    "Members of the OTTO Management Board: Marc Opelt (Chairman) • Bodo Kipper\n" +
+    "Dr Michael Müller-Wünsch • Katy Roewer (special proxy holders)\n\n" +
+    "Supervisory Board: Prof. Dr. Michael Otto (Chairman)\n", "Signature copied to clipboard successfully!"];
 
 const fields =  document.getElementById("inputfields");
 const browserLanguage = window.navigator.userLanguage || window.navigator.language;
@@ -201,11 +226,30 @@ function getFields() {
 }
 
 function generateRichSignature(fields) {
-    return "<span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'> ___________________________________________________________________<br><br>" + fields[0] + " " + fields[1] +  "<br>" + fields[2] + " • "  + fields[3] + " • " + fields[4] + "<br><br>Otto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg<br>A member of the Otto Group<br>" + checkIfPhoneMobileTelefaxAreSet(fields[5], fields[6], fields[7]) + "<br>" + checkIfEmailIsSet(fields[0], fields[1], fields[8]) + "<br>___________________________________________________________________<br><br>www.otto.de<br>www.facebook.com/otto<br>www.twitter.com/otto_de<br>___________________________________________________________________</span><br><br><span style='font-size:8.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>" + eval(pageLanguage  + "Strings")[3] + "___________________________________________________________________</span><br><br><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#00B050'>SAVE PAPER - THINK BEFORE YOU PRINT</span>";
+    return "<span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'> " +
+        "___________________________________________________________________" +
+        "<br><br>" + fields[0] + " " + fields[1] +  "<br>" + fields[2] + " • "  + fields[3] + " • " + fields[4] +
+        "<br><br>Otto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg<br>A member of the Otto Group<br>"
+        + checkIfPhoneMobileTelefaxAreSet(fields[5], fields[6], fields[7]) + "<br>" +
+        checkIfEmailIsSet(fields[0], fields[1], fields[8]) +
+        "<br>___________________________________________________________________<br>" +
+        "<br>www.otto.de<br>www.facebook.com/otto<br>www.twitter.com/otto_de<br>" +
+        "___________________________________________________________________" +
+        "</span><br><br><span style='font-size:8.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>"
+        + eval(pageLanguage  + "Strings")[3] + "___________________________________________________________________" +
+        "</span><br><br><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#00B050'>" +
+        "SAVE PAPER - THINK BEFORE YOU PRINT</span>";
 }
 
 function generatePlainSignature(fields) {
-    return "___________________________________________________________________\n\n" + fields[0] + " " + fields[1] +  "\n" + fields[2] + " • "  + fields[3] + " • " + fields[4] + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße 1-7 • 22179 Hamburg\nA member of the Otto Group\n" + checkIfPhoneMobileTelefaxAreSet(fields[5], fields[6], fields[7]) + "\n" + checkIfEmailIsSet(fields[0], fields[1], fields[8]) + "\n___________________________________________________________________\n\nwww.otto.de\nwww.facebook.com/otto\nwww.twitter.com/otto_de\n___________________________________________________________________\n\n" + eval(pageLanguage  + "Strings")[4] + "___________________________________________________________________\n\nSAVE PAPER - THINK BEFORE YOU PRINT";
+    return "___________________________________________________________________\n\n" + fields[0] + " " + fields[1] +
+        "\n" + fields[2] + " • "  + fields[3] + " • " + fields[4] + "\n\nOtto (GmbH & Co KG) • Werner-Otto-Straße " +
+        "1-7 • 22179 Hamburg\nA member of the Otto Group\n" + checkIfPhoneMobileTelefaxAreSet(fields[5], fields[6],
+            fields[7]) + "\n" + checkIfEmailIsSet(fields[0], fields[1], fields[8]) +
+        "\n___________________________________________________________________\n\nwww.otto.de\nwww.facebook.com/otto" +
+        "\nwww.twitter.com/otto_de\n___________________________________________________________________\n\n"
+        + eval(pageLanguage  + "Strings")[4] + "___________________________________________________________________\n" +
+        "\nSAVE PAPER - THINK BEFORE YOU PRINT";
 }
 
 function copyToClip() {
