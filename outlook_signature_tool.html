@@ -234,9 +234,7 @@ function generateRichSignature(fields) {
         "<br>www.otto.de<br>www.facebook.com/otto<br>www.twitter.com/otto_de<br>" +
         "___________________________________________________________________" +
         "</span><br><br><span style='font-size:8.0pt; font-family:&quot;Arial&quot;,sans-serif; color:black'>"
-        + eval(pageLanguage  + "Strings")[3] + "___________________________________________________________________" +
-        "</span><br><br><span style='font-size:10.0pt; font-family:&quot;Arial&quot;,sans-serif; color:#00B050'>" +
-        "SAVE PAPER - THINK BEFORE YOU PRINT</span>";
+        + eval(pageLanguage  + "Strings")[3];
 }
 
 function generatePlainSignature(fields) {
@@ -246,8 +244,7 @@ function generatePlainSignature(fields) {
             fields[7]) + "\n" + checkIfEmailIsSet(fields[0], fields[1], fields[8]) +
         "\n___________________________________________________________________\n\nwww.otto.de\nwww.facebook.com/otto" +
         "\nwww.twitter.com/otto_de\n___________________________________________________________________\n\n"
-        + eval(pageLanguage  + "Strings")[4] + "___________________________________________________________________\n" +
-        "\nSAVE PAPER - THINK BEFORE YOU PRINT";
+        + eval(pageLanguage  + "Strings")[4];
 }
 
 function copyToClip() {
